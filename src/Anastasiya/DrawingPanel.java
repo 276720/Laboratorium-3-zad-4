@@ -9,12 +9,20 @@ class DrawingPanel extends JPanel {
     private Square square;
     private int height = 250;
     private int width = 400;
+    private  double radiusCircle;
+    private  double centerCircleX;
+    private  double centerCircleY;
     private boolean isSquareSelected = false;
     private boolean isCircleSelected = false;
     public DrawingPanel() {
         circle = new Circle(150,50,50,Color.ORANGE);
         square = new Square(50,50,50,Color.RED);
 
+        //(x−a)^2 + (y-b)^2 <= r^2
+        radiusCircle = circle.getDiameter()/2;
+        centerCircleX= circle.getX() + radiusCircle;
+        centerCircleY =circle.getY() + radiusCircle;
+        
         setSize(width,height);
         setBackground(Color.LIGHT_GRAY);
         setFocusable(true);
@@ -26,8 +34,7 @@ class DrawingPanel extends JPanel {
                     System.out.println("Square");
                     isSquareSelected = true;
                     isCircleSelected = false;
-                } else if (circle.getX() <= e.getX() && e.getX() <= circle.getX() + circle.getDiameter() &&
-                        circle.getY() <= e.getY() && e.getY() <= circle.getY() + circle.getDiameter()) {
+                } else if (Math.pow(e.getX() - centerCircleX, 2) + Math.pow(e.getY() - centerCircleY, 2) <= Math.pow(radiusCircle, 2)) {
                     System.out.println("Circle");
                     isCircleSelected = true;
                     isSquareSelected = false;
